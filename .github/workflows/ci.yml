@@ -36,8 +36,6 @@ jobs:
           curl -sSL https://install.python-poetry.org | python - -y
       - name: Install dependencies
         run: poetry install
-      - name: Build
-        run: yarn build
       - name: Publish to pypi
         run: |
           poetry config repositories.remote https://pypi.org/
