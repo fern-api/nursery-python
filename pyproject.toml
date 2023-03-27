@@ -1,6 +1,6 @@
             [tool.poetry]
             name = "fern-nursery"
-            version = "0.0.64-19-gd554b1a"
+            version = "0.0.64a"
             description = ""
             authors = []
             packages = [

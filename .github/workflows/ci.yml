@@ -1,0 +1,42 @@
+name: ci
+
+on: [push]
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: poetry install
+      - name: Compile
+        run: poetry run mypy
+
+  publish:
+    needs: [ compile ]
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: poetry install
+      - name: Build
+        run: yarn build
+      - name: Publish to pypi
+        run: |
+          poetry config repositories.remote https://pypi.org/
+          poetry config http-basic.remote "$PYPI_USERNAME" "$PYPI_PASSSWORD"
+          poetry publish --build --repository remote
+        env:
+          PYPI_USERNAME: ${ secrets.$PYPI_USERNAME }
+          PYPI_PASSSWORD: ${ secrets.$PYPI_PASSSWORD }
