@@ -39,8 +39,7 @@ jobs:
       - name: Publish to pypi
         run: |
           poetry config repositories.remote https://test.pypi.org/legacy/
-          poetry config http-basic.remote "$PYPI_USERNAME" "$PYPI_PASSWORD"
-          poetry --no-interaction -v publish --build --repository remote
+          poetry --no-interaction -v publish --build --repository remote --username "$PYPI_USERNAME" --password "$PYPI_PASSWORD"
         env:
           PYPI_USERNAME: ${ secrets.$PYPI_USERNAME }
           PYPI_PASSWORD: ${ secrets.$PYPI_PASSSWORD }
