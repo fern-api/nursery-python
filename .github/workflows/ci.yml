@@ -38,7 +38,7 @@ jobs:
         run: poetry install
       - name: Publish to pypi
         run: |
-          poetry config repositories.remote https://test.pypi.org/simple/
+          poetry config repositories.remote https://test.pypi.org/legacy/
           poetry publish --build --repository remote
         env:
           POETRY_HTTP_BASIC_PYPI_USERNAME: ${ secrets.$PYPI_USERNAME }
